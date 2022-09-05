@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": false,
+    "version": "1.14.0",
+    "libraryName": "aquila-erp-spfx",
+    "libraryId": "025360ff-d61a-4b5b-bc93-49a564b5ebd9",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "aquila-erp-spfx",
+    "solutionShortDescription": "aquila-erp-spfx description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

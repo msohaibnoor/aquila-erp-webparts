@@ -1,0 +1,29 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "make-leave-request-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/makeLeaveRequest/MakeLeaveRequestWebPart.js",
+          "manifest": "./src/webparts/makeLeaveRequest/MakeLeaveRequestWebPart.manifest.json"
+        }
+      ]
+    },
+    "medical-claim-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/medicalClaim/MedicalClaimWebPart.js",
+          "manifest": "./src/webparts/medicalClaim/MedicalClaimWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "MakeLeaveRequestWebPartStrings": "lib/webparts/makeLeaveRequest/loc/{locale}.js",
+    "MedicalClaimWebPartStrings": "lib/webparts/medicalClaim/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
+  }
+}

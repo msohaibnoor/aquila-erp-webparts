@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "aquila-erp-spfx-client-side-solution",
+    "id": "025360ff-d61a-4b5b-bc93-49a564b5ebd9",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.14.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "aquila-erp-spfx description"
+      },
+      "longDescription": {
+        "default": "aquila-erp-spfx description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "aquila-erp-spfx Feature",
+        "description": "The feature that activates elements of the aquila-erp-spfx solution.",
+        "id": "7f765876-88cc-4bec-841d-1a036aaea211",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/aquila-erp-spfx.sppkg"
+  }
+}
