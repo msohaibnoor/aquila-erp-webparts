@@ -17,6 +17,14 @@
           "manifest": "./src/webparts/medicalClaim/MedicalClaimWebPart.manifest.json"
         }
       ]
+    },
+    "leave-list-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/leaveList/LeaveListWebPart.js",
+          "manifest": "./src/webparts/leaveList/LeaveListWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -24,6 +32,7 @@
     "MakeLeaveRequestWebPartStrings": "lib/webparts/makeLeaveRequest/loc/{locale}.js",
     "MedicalClaimWebPartStrings": "lib/webparts/medicalClaim/loc/{locale}.js",
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
-    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js"
+    "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
+    "LeaveListWebPartStrings": "lib/webparts/leaveList/loc/{locale}.js"
   }
 }
