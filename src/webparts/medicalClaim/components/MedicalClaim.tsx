@@ -38,7 +38,7 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
   const textFieldId = useId("anInput");
 
   const [Comments, setComments] = useState<string>();
-  const [Amount, setAmount] = useState();
+  const [Amount, setAmount] = useState<any>();
   const [Pharmacy, setPharmacy] = useState<string>();
   const [Files, setFiles] = useState<any>();
   const [InvoiceDate, setInvoiceDate] = useState();
@@ -85,12 +85,11 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
             }, 500);
           });
           setSubmitting(false);
-          setAmount(undefined);
-          setComments(undefined);
-          setPharmacy(undefined);
-          setPatientRelation(undefined);
-          setAmount(undefined);
-          setInvoiceDate(undefined);
+          setAmount("");
+          setComments("");
+          setPharmacy("");
+          setPatientRelation("Self");
+          setInvoiceDate(null);
         }
       } catch (err) {
         console.error(err);
@@ -154,7 +153,7 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
 
   return (
     <>
-      <h1>Claim your medical expense</h1>
+      <h1>Claim Your Medical Expense</h1>
       <form onSubmit={handleSubmit}>
         <Dropdown
           defaultSelectedKey={PatientRelation}
@@ -176,6 +175,7 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
           strings={defaultDatePickerStrings}
           onSelectDate={(date: any) => setInvoiceDate(date)}
           onBlur={() => handleBlur("InvoiceDate")}
+          value={InvoiceDate}
         />
         {errors?.InvoiceDate && (
           <small className={styles.error}>{errors?.InvoiceDate}</small>

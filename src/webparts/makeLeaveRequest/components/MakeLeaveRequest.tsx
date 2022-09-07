@@ -59,7 +59,7 @@ const Faq = (props: IMakeLeaveRequestProps) => {
   const [BusinessDays, setBusinessDays] = useState<any>("");
   const [LeaveStartDate, setLeaveStartDate] = useState();
   const [LeaveEndDate, setLeaveEndDate] = useState();
-  const [LeaveType, setLeaveType] = React.useState<any>();
+  const [LeaveType, setLeaveType] = React.useState<any>("Annual");
   // console.log(LeaveStartDate);
   // console.log(LeaveEndDate);
   const textFieldId = useId("anInput");
