@@ -33,6 +33,14 @@
           "manifest": "./src/webparts/medicalCalimsList/MedicalCalimsListWebPart.manifest.json"
         }
       ]
+    },
+    "salaries-folder-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/salariesFolder/SalariesFolderWebPart.js",
+          "manifest": "./src/webparts/salariesFolder/SalariesFolderWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -42,6 +50,7 @@
     "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
     "PropertyControlStrings": "node_modules/@pnp/spfx-property-controls/lib/loc/{locale}.js",
     "LeaveListWebPartStrings": "lib/webparts/leaveList/loc/{locale}.js",
-    "MedicalCalimsListWebPartStrings": "lib/webparts/medicalCalimsList/loc/{locale}.js"
+    "MedicalCalimsListWebPartStrings": "lib/webparts/medicalCalimsList/loc/{locale}.js",
+    "SalariesFolderWebPartStrings": "lib/webparts/salariesFolder/loc/{locale}.js"
   }
 }

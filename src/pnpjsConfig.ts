@@ -6,6 +6,7 @@ import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/batching";
+import "@pnp/sp/folders";
 
 var _sp: SPFI = null;
 

@@ -78,18 +78,28 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
           const item: IItem = _sp.web.lists
             .getById("66d0c729-4678-44ec-9698-09b63c748607")
             .items.getById(res.data.Id);
-          Files.forEach(async (file: any, i: number) => {
-            setTimeout(async () => {
-              let buffer = await file.arrayBuffer();
-              await item.attachmentFiles.add(file.name, buffer);
-            }, 500);
+          let claims = Files.map(async (file) => {
+            let buffer = await file.arrayBuffer();
+            let claim = await item.attachmentFiles.add(file.name, buffer);
+            return claim;
           });
-          setSubmitting(false);
-          setAmount("");
-          setComments("");
-          setPharmacy("");
-          setPatientRelation("Self");
-          setInvoiceDate(null);
+          Promise.all(claims).then((values) => {
+            console.log("promise.all");
+            console.log(values);
+          });
+
+          // Files.forEach(async (file: any, i: number) => {
+          //   setTimeout(async () => {
+          //     let buffer = await file.arrayBuffer();
+          //     await item.attachmentFiles.add(file.name, buffer);
+          //   }, 500);
+          // });
+          // setSubmitting(false);
+          // setAmount("");
+          // setComments("");
+          // setPharmacy("");
+          // setPatientRelation("Self");
+          // setInvoiceDate(null);
         }
       } catch (err) {
         console.error(err);

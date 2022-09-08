@@ -84,6 +84,7 @@ const Faq = (props: IMakeLeaveRequestProps) => {
         BusinessDays,
       };
       console.log(leaveData);
+
       const list = _sp.web.lists.getById(
         "a6c01299-d275-43b9-9b3d-26b8bd0a76d9"
       );
