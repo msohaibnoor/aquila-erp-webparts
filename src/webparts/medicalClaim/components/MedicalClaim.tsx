@@ -94,12 +94,12 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
           //     await item.attachmentFiles.add(file.name, buffer);
           //   }, 500);
           // });
-          // setSubmitting(false);
-          // setAmount("");
-          // setComments("");
-          // setPharmacy("");
-          // setPatientRelation("Self");
-          // setInvoiceDate(null);
+          setSubmitting(false);
+          setAmount("");
+          setComments("");
+          setPharmacy("");
+          setPatientRelation("Self");
+          setInvoiceDate(null);
         }
       } catch (err) {
         console.error(err);
