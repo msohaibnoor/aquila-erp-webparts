@@ -4,12 +4,18 @@ import { SPFI } from "@pnp/sp";
 import * as React from "react";
 import { getSP } from "../../../pnpjsConfig";
 import { commaSeparated, toMonthName } from "../../../utils";
+import Payslip from "./Payslip";
 
 function Salaries(props) {
   const { user } = props;
   let _sp: SPFI = getSP(props.context);
   const [data, setData] = React.useState([]);
+  const [salary, setSalary] = React.useState<any>()
+  const [isDisplay, setIsDisplay] = React.useState(true);
 
+  const onChangeDisplay = () =>{
+    setIsDisplay(!isDisplay);
+  }
   const renderItemColumn = (item: any, index: any, column: any) => {
     let fieldContent = item[column.fieldName];
     switch (column.key) {
@@ -34,7 +40,7 @@ function Salaries(props) {
           parseInt(item["Tax."]) +
           parseInt(item?.Advance);
         return <span>Rs {commaSeparated(deductions)}</span>;
-      case 'TaxWorkSheet':
+      case "TaxWorkSheet":
         return (
           <span onClick={props.onChange}>
             <TooltipHost content={`Tax`}>
@@ -42,9 +48,11 @@ function Salaries(props) {
             </TooltipHost>
           </span>
         );
-      case 'Payslip':
+      case "Payslip":
         return (
-          <span onClick={props.onChange}>
+          <span onClick={() => {
+            setSalary(item)
+            onChangeDisplay()}}>
             <TooltipHost content={`Payslip`}>
               <Link>View</Link>
             </TooltipHost>
@@ -73,10 +81,10 @@ function Salaries(props) {
       // isRowHeader: true,
       // isResizable: true,
       isSorted: true,
-      // isSortedDescending: false,
+      isSortedDescending: false,
       // sortAscendingAriaLabel: "Sorted A to Z",
       // sortDescendingAriaLabel: "Sorted Z to A",
-      data: "string",
+      data: "number",
       isPadded: true,
     },
     {
@@ -109,7 +117,6 @@ function Salaries(props) {
       data: "string",
       isPadded: true,
     },
-   
   ]);
 
   React.useEffect(() => {
@@ -125,16 +132,16 @@ function Salaries(props) {
     setData(salariesData?.Row);
   };
   return (
-    <div>
-      <DetailsList
-        items={data}
-        columns={columns}
-        onRenderItemColumn={renderItemColumn}
-        // isHeaderVisible={true}
-        // onItemInvoked={_onItemInvoked}
-        // onActiveItemChanged ={_onItemInvoked}
-      />
-    </div>
+    <>
+      {isDisplay && (
+        <DetailsList
+          items={data}
+          columns={columns}
+          onRenderItemColumn={renderItemColumn}
+        />
+      )}
+      {!isDisplay && salary && <Payslip pay={salary} onChangeDisplay={onChangeDisplay} />}
+    </>
   );
 }
 
