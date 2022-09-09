@@ -1,26 +1,22 @@
-import * as React from "react";
-import styles from "./MedicalClaim.module.scss";
-import { IMedicalClaimProps } from "./IMedicalClaimProps";
-import { escape } from "@microsoft/sp-lodash-subset";
-import { SPFI } from "@pnp/sp";
-import { getSP } from "../../../pnpjsConfig";
-import { useEffect, useState } from "react";
-import { IItem } from "@pnp/sp/items";
-import "@pnp/sp/webs";
-import "@pnp/sp/lists/web";
-import "@pnp/sp/items";
-import "@pnp/sp/attachments";
+import { DatePicker, defaultDatePickerStrings } from "@fluentui/react";
+import { useId } from "@fluentui/react-hooks";
+import { PrimaryButton } from "@fluentui/react/lib/Button";
 import { Label } from "@fluentui/react/lib/Label";
 import { TextField } from "@fluentui/react/lib/TextField";
-import { useId } from "@fluentui/react-hooks";
-import { PrimaryButton, DefaultButton } from "@fluentui/react/lib/Button";
-import { DatePicker, defaultDatePickerStrings } from "@fluentui/react";
+import { SPFI } from "@pnp/sp";
+import "@pnp/sp/attachments";
+import "@pnp/sp/items";
+import { IItem } from "@pnp/sp/items";
+import "@pnp/sp/lists/web";
+import "@pnp/sp/webs";
+import * as React from "react";
+import { useEffect, useState } from "react";
 import { useToasts } from "react-toast-notifications";
+import { getSP } from "../../../pnpjsConfig";
+import styles from "./MedicalClaim.module.scss";
+
 import {
-  Dropdown,
-  DropdownMenuItemType,
-  IDropdownOption,
-  IDropdownStyles,
+  Dropdown, IDropdownOption
 } from "@fluentui/react/lib/Dropdown";
 import * as moment from "moment";
 
@@ -80,18 +76,35 @@ const MedicalClaim = (props: any) => {
             .getById("66d0c729-4678-44ec-9698-09b63c748607")
             .items.getById(res.data.Id);
 
-          let claims = Files.map(async (file) => {
-            let buffer = await file.arrayBuffer();
-            let claim = await item.attachmentFiles.add(file.name, buffer);
-            return claim;
+            
+
+          Files.forEach(async (file: any, i: number) => {
+            setTimeout(async () => {
+              var buffer = await file.arrayBuffer();
+              await item.attachmentFiles.add(file.name, buffer);
+              if(i === Files.length -  1)
+              {
+                addToast("Claim request has been sent", {
+                      appearance: "success",
+                      autoDismiss: true,
+                      PlacementType: "bottom-left",
+                    });
+              }
+            }, 2000);
           });
-          Promise.all(claims).then((values) => {
-            addToast("Claim request has been sent", {
-              appearance: "success",
-              autoDismiss: true,
-              PlacementType: "bottom-left",
-            });
-          });
+
+          // let claims = Files.map(async (file) => {
+          //   let buffer = await file.arrayBuffer();
+          //   let claim = await item.attachmentFiles.add(file.name, buffer);
+          //   return claim;
+          // });
+          // Promise.all(claims).then((values) => {
+          //   addToast("Claim request has been sent", {
+          //     appearance: "success",
+          //     autoDismiss: true,
+          //     PlacementType: "bottom-left",
+          //   });
+          // });
 
           setSubmitting(false);
           setAmount("");
