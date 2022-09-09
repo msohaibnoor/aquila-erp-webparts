@@ -1,50 +1,22 @@
 import * as React from "react";
 import styles from "./MakeLeaveRequest.module.scss";
 import { IMakeLeaveRequestProps } from "./IMakeLeaveRequestProps";
-import { escape } from "@microsoft/sp-lodash-subset";
 import { SPFI } from "@pnp/sp";
 import { getSP } from "../../../pnpjsConfig";
 import { useEffect, useState } from "react";
-import { IFAQ, ILeaves } from "../../../interfaces";
-// import { Accordion } from "@pnp/spfx-controls-react/lib/Accordion";
-// import { Placeholder } from "@pnp/spfx-controls-react/lib/Placeholder";
-// import { WebPartTitle } from "@pnp/spfx-controls-react/lib/WebPartTitle";
-// import { DynamicForm } from "@pnp/spfx-controls-react/lib/DynamicForm";
-import { Label } from "@fluentui/react/lib/Label";
+import { ILeaves } from "../../../interfaces";
+import { useToasts } from "react-toast-notifications";
 import { TextField } from "@fluentui/react/lib/TextField";
 import { useId } from "@fluentui/react-hooks";
 import { PrimaryButton } from "@fluentui/react/lib/Button";
-import {
-  DatePicker,
-  DayOfWeek,
-  // Dropdown,
-  // IDropdownOption,
-  mergeStyles,
-  defaultDatePickerStrings,
-} from "@fluentui/react";
-import {
-  Dropdown,
-  DropdownMenuItemType,
-  IDropdownOption,
-  IDropdownStyles,
-} from "@fluentui/react/lib/Dropdown";
+import { DatePicker, defaultDatePickerStrings } from "@fluentui/react";
+import { Dropdown, IDropdownOption } from "@fluentui/react/lib/Dropdown";
 import momentBusiness from "moment-business-days";
 import * as moment from "moment";
 
-// var july4th = "08-18-2022";
-// var laborDay = "09-07-2022";
-
-// momentBusiness.updateLocale("us", {
-//   holidays: [july4th, laborDay],
-//   holidayFormat: "MM-DD-YYYY",
-// });
-
-const dropdownStyles: Partial<IDropdownStyles> = { dropdown: { width: 300 } };
-
-const Faq = (props: IMakeLeaveRequestProps) => {
-  const LOG_SOURCE = "FAQ Webpart";
-  const LIST_NAME = "FAQ";
-  let _sp: SPFI = getSP(props.context);
+const MakeLeaveRequest = (props: any) => {
+  const { LeaveProps } = props;
+  let _sp: SPFI = getSP(LeaveProps.context);
 
   const leaveTypeOptions = [
     { key: "Annual", text: "Annual" },
@@ -53,17 +25,15 @@ const Faq = (props: IMakeLeaveRequestProps) => {
     { key: "Deceased", text: "Deceased" },
     { key: "Compensation", text: "Compensation" },
   ];
+  const { addToast } = useToasts();
+
   const [errors, setErrors] = useState<any>();
-  const [leaves, setLeaves] = useState<ILeaves[]>([]);
   const [Comments, setComments] = useState<string>();
   const [BusinessDays, setBusinessDays] = useState<any>("");
   const [LeaveStartDate, setLeaveStartDate] = useState();
   const [LeaveEndDate, setLeaveEndDate] = useState();
   const [LeaveType, setLeaveType] = React.useState<any>("Annual");
-  // console.log(LeaveStartDate);
-  // console.log(LeaveEndDate);
   const textFieldId = useId("anInput");
-  // console.log(LeaveType);
 
   const onChange = (
     event: React.FormEvent<HTMLDivElement>,
@@ -89,14 +59,25 @@ const Faq = (props: IMakeLeaveRequestProps) => {
         "a6c01299-d275-43b9-9b3d-26b8bd0a76d9"
       );
       try {
-        list.items.add(leaveData);
-        setComments("");
-        setBusinessDays("");
-        setLeaveStartDate(null);
-        setLeaveEndDate(null);
-        setLeaveType("Annual");
+        let res = await list.items.add(leaveData);
+        if (res.data) {
+          setComments("");
+          setBusinessDays("");
+          setLeaveStartDate(null);
+          setLeaveEndDate(null);
+          setLeaveType("Annual");
+          addToast("Your request has been sent", {
+            appearance: "success",
+            autoDismiss: true,
+            PlacementType: "bottom-left",
+          });
+        }
       } catch (err) {
-        console.error(err);
+        addToast("Something went wrong on the server. Please try again", {
+          appearance: "error",
+          autoDismiss: true,
+          PlacementType: "bottom-left",
+        });
       }
     }
   };
@@ -140,6 +121,7 @@ const Faq = (props: IMakeLeaveRequestProps) => {
       setBusinessDays(diff + 1);
     }
   }, [LeaveStartDate, LeaveEndDate]);
+
   return (
     <>
       <h1>Make A Leave Request</h1>
@@ -147,9 +129,6 @@ const Faq = (props: IMakeLeaveRequestProps) => {
         <Dropdown
           defaultSelectedKey={LeaveType}
           label="Select leave type"
-          // defaultSelectedKey="Annual"
-          // selectedKey={LeaveType ? LeaveType.key : undefined}
-          // eslint-disable-next-line react/jsx-no-bind
           onChange={onChange}
           placeholder="Select leave type"
           options={leaveTypeOptions}
@@ -160,7 +139,6 @@ const Faq = (props: IMakeLeaveRequestProps) => {
           <small className={styles.error}>{errors?.LeaveType}</small>
         )}
         <DatePicker
-          // firstDayOfWeek={firstDayOfWeek}
           label="Leave Start Date"
           placeholder="Enter Leave Start Date"
           ariaLabel="Enter Leave Start Date"
@@ -173,12 +151,10 @@ const Faq = (props: IMakeLeaveRequestProps) => {
           <small className={styles.error}>{errors?.LeaveStartDate}</small>
         )}
         <DatePicker
-          // firstDayOfWeek={firstDayOfWeek}
           label="Leave End Date"
           placeholder="Enter Leave End Date"
           ariaLabel="Enter Leave End Date"
           strings={defaultDatePickerStrings}
-          // value={new Date()}
           minDate={LeaveStartDate || new Date()}
           onSelectDate={(date: any) => {
             setLeaveEndDate(date);
@@ -214,8 +190,6 @@ const Faq = (props: IMakeLeaveRequestProps) => {
             text="Submit"
             onClick={handleSubmit}
             allowDisabledFocus
-            // disabled={disabled}
-            // checked={checked}
           />
         </div>
       </form>
@@ -223,4 +197,4 @@ const Faq = (props: IMakeLeaveRequestProps) => {
   );
 };
 
-export default Faq;
+export default MakeLeaveRequest;

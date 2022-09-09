@@ -10,6 +10,7 @@ import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
 import * as strings from "MakeLeaveRequestWebPartStrings";
 import MakeLeaveRequest from "./components/MakeLeaveRequest";
+import MakeLeaveRequestWrapper from "./components/MakeRequestWrapper";
 import { IMakeLeaveRequestProps } from "./components/IMakeLeaveRequestProps";
 
 export interface IMakeLeaveRequestWebPartProps {
@@ -28,7 +29,7 @@ export default class MakeLeaveRequestWebPart extends BaseClientSideWebPart<IMake
 
   public render(): void {
     const element: React.ReactElement<IMakeLeaveRequestProps> =
-      React.createElement(MakeLeaveRequest, {
+      React.createElement(MakeLeaveRequestWrapper, {
         description: this.properties.description,
         isDarkTheme: this._isDarkTheme,
         environmentMessage: this._environmentMessage,
