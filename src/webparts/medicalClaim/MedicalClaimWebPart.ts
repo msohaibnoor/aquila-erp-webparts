@@ -10,6 +10,7 @@ import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
 import * as strings from "MedicalClaimWebPartStrings";
 import MedicalClaim from "./components/MedicalClaim";
+import MedicalClaimWrapper from "./components/MedicalClaimWrapper";
 import { IMedicalClaimProps } from "./components/IMedicalClaimProps";
 
 export interface IMedicalClaimWebPartProps {
@@ -28,7 +29,7 @@ export default class MedicalClaimWebPart extends BaseClientSideWebPart<IMedicalC
 
   public render(): void {
     const element: React.ReactElement<IMedicalClaimProps> = React.createElement(
-      MedicalClaim,
+      MedicalClaimWrapper,
       {
         description: this.properties.description,
         isDarkTheme: this._isDarkTheme,

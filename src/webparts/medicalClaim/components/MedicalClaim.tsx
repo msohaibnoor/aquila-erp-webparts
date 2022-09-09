@@ -15,7 +15,7 @@ import { TextField } from "@fluentui/react/lib/TextField";
 import { useId } from "@fluentui/react-hooks";
 import { PrimaryButton, DefaultButton } from "@fluentui/react/lib/Button";
 import { DatePicker, defaultDatePickerStrings } from "@fluentui/react";
-
+import { useToasts } from "react-toast-notifications";
 import {
   Dropdown,
   DropdownMenuItemType,
@@ -24,8 +24,9 @@ import {
 } from "@fluentui/react/lib/Dropdown";
 import * as moment from "moment";
 
-const MedicalClaim = (props: IMedicalClaimProps) => {
-  let _sp: SPFI = getSP(props.context);
+const MedicalClaim = (props: any) => {
+  const { ClaimProps } = props;
+  let _sp: SPFI = getSP(ClaimProps.context);
 
   const patientRelationOptions = [
     { key: "Self", text: "Self" },
@@ -43,7 +44,7 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
   const [Files, setFiles] = useState<any>();
   const [InvoiceDate, setInvoiceDate] = useState();
   const [PatientRelation, setPatientRelation] = React.useState<any>();
-  console.log(PatientRelation, InvoiceDate, Pharmacy, Amount, Comments);
+  const { addToast } = useToasts();
 
   const handlePatientRelation = (
     event: React.FormEvent<HTMLDivElement>,
@@ -78,22 +79,20 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
           const item: IItem = _sp.web.lists
             .getById("66d0c729-4678-44ec-9698-09b63c748607")
             .items.getById(res.data.Id);
+
           let claims = Files.map(async (file) => {
             let buffer = await file.arrayBuffer();
             let claim = await item.attachmentFiles.add(file.name, buffer);
             return claim;
           });
           Promise.all(claims).then((values) => {
-            console.log("promise.all");
-            console.log(values);
+            addToast("Claim request has been sent", {
+              appearance: "success",
+              autoDismiss: true,
+              PlacementType: "bottom-left",
+            });
           });
 
-          // Files.forEach(async (file: any, i: number) => {
-          //   setTimeout(async () => {
-          //     let buffer = await file.arrayBuffer();
-          //     await item.attachmentFiles.add(file.name, buffer);
-          //   }, 500);
-          // });
           setSubmitting(false);
           setAmount("");
           setComments("");
@@ -103,6 +102,11 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
         }
       } catch (err) {
         console.error(err);
+        addToast("Something went wrong on the server. Please try again", {
+          appearance: "error",
+          autoDismiss: true,
+          PlacementType: "bottom-left",
+        });
         setSubmitting(false);
       }
     }
@@ -228,42 +232,7 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
         {errors?.Comments && (
           <small className={styles.error}>{errors?.Comments}</small>
         )}
-        {/* <DragDropFiles
-          dropEffect="move"
-          enable={true}
-          iconName="Upload"
-          labelMessage="Drag you prescription here"
-        >
-          <div
-            style={{ width: "300px", height: "300px", backgroundColor: "teal" }}
-          ></div>
-        </DragDropFiles> */}
-        {/* <FilePicker
-          bingAPIKey="<BING API KEY>"
-          accepts={[
-            ".gif",
-            ".jpg",
-            ".jpeg",
-            ".bmp",
-            ".dib",
-            ".tif",
-            ".tiff",
-            ".ico",
-            ".png",
-            ".jxr",
-            ".svg",
-          ]}
-          label="Upload your prescription"
-          buttonLabel="Upload your prescription"
-          buttonIcon="FileImage"
-          onSave={(filePickerResult: IFilePickerResult[]) => {
-            // setState({ filePickerResult });
-          }}
-          onChange={(filePickerResult: IFilePickerResult[]) => {
-            // setState({ filePickerResult });
-          }}
-          context={props.context}
-        /> */}
+
         <Label>Upload Prescription</Label>
         <input
           type="file"
@@ -285,12 +254,6 @@ const MedicalClaim = (props: IMedicalClaimProps) => {
             disabled={submitting}
           />
         </div>
-        <DefaultButton
-          className={styles["mt-10"]}
-          text="Reset"
-          allowDisabledFocus
-          disabled={submitting}
-        />
       </form>
     </>
   );

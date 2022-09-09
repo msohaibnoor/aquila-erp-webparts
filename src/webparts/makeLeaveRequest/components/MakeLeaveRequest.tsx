@@ -33,6 +33,8 @@ const MakeLeaveRequest = (props: any) => {
   const [LeaveStartDate, setLeaveStartDate] = useState();
   const [LeaveEndDate, setLeaveEndDate] = useState();
   const [LeaveType, setLeaveType] = React.useState<any>("Annual");
+  const [submitting, setSubmitting] = useState(false);
+
   const textFieldId = useId("anInput");
 
   const onChange = (
@@ -44,6 +46,7 @@ const MakeLeaveRequest = (props: any) => {
 
   const handleSubmit = async () => {
     if (validateForm()) {
+      setSubmitting(true);
       let startDate = moment(LeaveStartDate);
       let endDate = moment(LeaveEndDate);
       const leaveData = {
@@ -71,6 +74,7 @@ const MakeLeaveRequest = (props: any) => {
             autoDismiss: true,
             PlacementType: "bottom-left",
           });
+          setSubmitting(false);
         }
       } catch (err) {
         addToast("Something went wrong on the server. Please try again", {
@@ -78,6 +82,7 @@ const MakeLeaveRequest = (props: any) => {
           autoDismiss: true,
           PlacementType: "bottom-left",
         });
+        setSubmitting(false);
       }
     }
   };
@@ -190,6 +195,7 @@ const MakeLeaveRequest = (props: any) => {
             text="Submit"
             onClick={handleSubmit}
             allowDisabledFocus
+            disabled={submitting}
           />
         </div>
       </form>
