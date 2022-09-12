@@ -7,6 +7,8 @@ import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/batching";
 import "@pnp/sp/folders";
+import "@pnp/sp/items/get-all";
+
 
 var _sp: SPFI = null;
 
