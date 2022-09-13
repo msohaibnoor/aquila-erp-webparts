@@ -31,7 +31,7 @@ const MedicalClaim = (props: any) => {
     { key: "Parent", text: "Parent" },
   ];
   const [errors, setErrors] = useState<any>();
-  console.log({ errors });
+  console.log(props);
   const [submitting, setSubmitting] = useState(false);
   const textFieldId = useId("anInput");
 
@@ -58,8 +58,8 @@ const MedicalClaim = (props: any) => {
       setSubmitting(true);
       const leaveData = {
         Title: "Mr",
-        EmployeeName: props.userDisplayName,
-        EmployeeEmail: props.userEmail,
+        EmployeeName: ClaimProps.userDisplayName,
+        EmployeeEmail: ClaimProps.userEmail,
         PatientRelation: PatientRelation,
         InvoiceDate: moment(date).add(1, "days"),
         Amount,
@@ -73,7 +73,6 @@ const MedicalClaim = (props: any) => {
       );
       try {
         const res = await list.items.add(leaveData);
-        setSubmitting(false);
         if (Files && Files.length !== 0 && res.data) {
           const item: IItem = _sp.web.lists
             .getById("66d0c729-4678-44ec-9698-09b63c748607")
@@ -84,6 +83,7 @@ const MedicalClaim = (props: any) => {
               var buffer = await file.arrayBuffer();
               await item.attachmentFiles.add(file.name, buffer);
               if (i === Files.length - 1) {
+                setSubmitting(false);
                 addToast("Claim request has been sent", {
                   appearance: "success",
                   autoDismiss: true,
@@ -246,20 +246,6 @@ const MedicalClaim = (props: any) => {
         {errors?.Comments && (
           <small className={styles.error}>{errors?.Comments}</small>
         )}
-
-        {/* <Label>Upload Prescription</Label>
-        <input
-          type="file"
-          placeholder="Upload prescription"
-          accept=".gif,.jpg,.jpeg,.png,.doc,.docx,.pdf"
-          multiple
-          onChange={(e) => changeHandler(e)}
-          onBlur={() => handleBlur("Files")}
-        />
-        {errors?.Files && (
-          <small className={styles.error}>{errors?.Files}</small>
-        )} */}
-
         <div className={styles.title}>Upload Prescription</div>
         <FileUpload files={Files} setFiles={setFiles} removeFile={removeFile} />
         <FileList files={Files} removeFile={removeFile} />
@@ -269,7 +255,7 @@ const MedicalClaim = (props: any) => {
         <div>
           <PrimaryButton
             className={styles["mt-10"]}
-            text="Submit"
+            text={submitting ? "Submitting..." : "Submit"}
             onClick={handleSubmit}
             allowDisabledFocus
             disabled={submitting}
