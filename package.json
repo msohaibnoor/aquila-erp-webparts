@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@fluentui/react": "^8.93.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@iconify/react": "^4.0.0",
     "@microsoft/rush-stack-compiler-4.2": "^0.1.2",
     "@microsoft/sp-core-library": "1.14.0",

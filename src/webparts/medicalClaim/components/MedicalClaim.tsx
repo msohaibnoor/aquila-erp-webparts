@@ -15,10 +15,10 @@ import { useToasts } from "react-toast-notifications";
 import { getSP } from "../../../pnpjsConfig";
 import styles from "./MedicalClaim.module.scss";
 
-import {
-  Dropdown, IDropdownOption
-} from "@fluentui/react/lib/Dropdown";
+import { Dropdown, IDropdownOption } from "@fluentui/react/lib/Dropdown";
 import * as moment from "moment";
+import FileUpload from "./FileUpload";
+import FileList from "./FileList";
 
 const MedicalClaim = (props: any) => {
   const { ClaimProps } = props;
@@ -31,13 +31,14 @@ const MedicalClaim = (props: any) => {
     { key: "Parent", text: "Parent" },
   ];
   const [errors, setErrors] = useState<any>();
+  console.log({ errors });
   const [submitting, setSubmitting] = useState(false);
   const textFieldId = useId("anInput");
 
   const [Comments, setComments] = useState<string>();
   const [Amount, setAmount] = useState<any>();
   const [Pharmacy, setPharmacy] = useState<string>();
-  const [Files, setFiles] = useState<any>();
+  const [Files, setFiles] = useState<any>([]);
   const [InvoiceDate, setInvoiceDate] = useState();
   const [PatientRelation, setPatientRelation] = React.useState<any>();
   const { addToast } = useToasts();
@@ -48,7 +49,9 @@ const MedicalClaim = (props: any) => {
   ): void => {
     setPatientRelation(item.key);
   };
-
+  const removeFile = (filename) => {
+    setFiles(Files.filter((file) => file.name !== filename));
+  };
   const handleSubmit = async () => {
     let date = moment(InvoiceDate);
     if (validateForm()) {
@@ -76,19 +79,16 @@ const MedicalClaim = (props: any) => {
             .getById("66d0c729-4678-44ec-9698-09b63c748607")
             .items.getById(res.data.Id);
 
-            
-
           Files.forEach(async (file: any, i: number) => {
             setTimeout(async () => {
               var buffer = await file.arrayBuffer();
               await item.attachmentFiles.add(file.name, buffer);
-              if(i === Files.length -  1)
-              {
+              if (i === Files.length - 1) {
                 addToast("Claim request has been sent", {
-                      appearance: "success",
-                      autoDismiss: true,
-                      PlacementType: "bottom-left",
-                    });
+                  appearance: "success",
+                  autoDismiss: true,
+                  PlacementType: "bottom-left",
+                });
               }
             }, 2000);
           });
@@ -110,6 +110,7 @@ const MedicalClaim = (props: any) => {
           setAmount("");
           setComments("");
           setPharmacy("");
+          setFiles([]);
           setPatientRelation("Self");
           setInvoiceDate(null);
         }
@@ -142,7 +143,7 @@ const MedicalClaim = (props: any) => {
     if (!Pharmacy) {
       err.Pharmacy = "Please enter pharmacy or hospital";
     }
-    if (Files?.length <= 0 || !Files) {
+    if (Files?.length === 0 || !Files) {
       err.Files = "Please upload relevant documents";
     }
     setErrors(err);
@@ -246,7 +247,7 @@ const MedicalClaim = (props: any) => {
           <small className={styles.error}>{errors?.Comments}</small>
         )}
 
-        <Label>Upload Prescription</Label>
+        {/* <Label>Upload Prescription</Label>
         <input
           type="file"
           placeholder="Upload prescription"
@@ -255,6 +256,13 @@ const MedicalClaim = (props: any) => {
           onChange={(e) => changeHandler(e)}
           onBlur={() => handleBlur("Files")}
         />
+        {errors?.Files && (
+          <small className={styles.error}>{errors?.Files}</small>
+        )} */}
+
+        <div className={styles.title}>Upload Prescription</div>
+        <FileUpload files={Files} setFiles={setFiles} removeFile={removeFile} />
+        <FileList files={Files} removeFile={removeFile} />
         {errors?.Files && (
           <small className={styles.error}>{errors?.Files}</small>
         )}
