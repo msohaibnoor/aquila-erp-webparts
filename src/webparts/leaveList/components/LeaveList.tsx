@@ -91,12 +91,11 @@ function LeaveList(props) {
 
   React.useEffect(() => {
     _getListOfLeaves();
-  }, []);
+  }, []);             
   const _getListOfLeaves = async () => {
-    const list = await _sp.web.lists.getByTitle("LeaveRequests").items();
+    const list:any = await _sp.web.lists.getByTitle('LeaveRequests').items.select().filter("Author/EMail eq '" + props.user.email + "'").getAll();
     setData(list);
   };
-
   const _onItemInvoked = (item: any): void => {
     console.log("item on Click", item);
   };

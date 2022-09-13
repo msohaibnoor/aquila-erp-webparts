@@ -22,6 +22,7 @@ export default class LeaveListWebPart extends BaseClientSideWebPart<ILeaveListWe
   private _environmentMessage: string = '';
 
   public render(): void {
+    
     const element: React.ReactElement<ILeaveListProps> = React.createElement(
       LeaveList,
       {
