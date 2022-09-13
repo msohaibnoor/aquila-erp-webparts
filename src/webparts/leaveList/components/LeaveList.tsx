@@ -1,28 +1,14 @@
 import * as React from "react";
-import { Link } from "@fluentui/react";
 import { DetailsList } from "@fluentui/react/lib/DetailsList";
 import { SPFI } from "@pnp/sp";
 import { getSP } from "../../../pnpjsConfig";
-import { TooltipHost } from "@fluentui/react";
 
 function LeaveList(props) {
+  const { email } = props.user;
   let _sp: SPFI = getSP(props.context);
   const [data, setData] = React.useState([]);
   const renderItemColumn = (item: any, index: any, column: any) => {
     let fieldContent = item[column.fieldName];
-    // switch (column.key) {
-    //   case "view":
-    //     return (
-    //       <span onClick={props.onChange}>
-    //         <TooltipHost content={`Detailssssssss`}>
-    //           <Link>View</Link>
-    //         </TooltipHost>
-    //       </span>
-    //     );
-
-    //   default:
-    //     return <span>{fieldContent}</span>;
-    // }
     return <span>{fieldContent}</span>;
   };
 
@@ -33,12 +19,6 @@ function LeaveList(props) {
       fieldName: "LeaveType",
       minWidth: 16,
       maxWidth: 80,
-      // onColumnClick: this._onColumnClick,
-      // onRender: (item: any) => (
-      //   <TooltipHost content={`${item.fileType} file`}>
-      //     <img src={item.iconName} className={classNames.fileIconImg} alt={`${item.fileType} file icon`} />
-      //   </TooltipHost>
-      // ),
     },
     {
       key: "LeaveStartDate",
@@ -86,20 +66,24 @@ function LeaveList(props) {
       isCollapsible: true,
       data: "number",
     },
-    
   ]);
 
   React.useEffect(() => {
     _getListOfLeaves();
-  }, []);             
+  }, []);
+
   const _getListOfLeaves = async () => {
-    const list:any = await _sp.web.lists.getByTitle('LeaveRequests').items.select().filter("Author/EMail eq '" + props.user.email + "'").getAll();
+    const list: any = await _sp.web.lists
+      .getByTitle("LeaveRequests")
+      .items.select()
+      .filter("Author/EMail eq '" + email + "'")
+      .getAll();
     setData(list);
   };
   const _onItemInvoked = (item: any): void => {
     console.log("item on Click", item);
   };
-  return (  <div>
+  return (
     <DetailsList
       items={data}
       columns={columns}
@@ -108,7 +92,7 @@ function LeaveList(props) {
       // onItemInvoked={_onItemInvoked}
       // onActiveItemChanged ={_onItemInvoked}
     />
-  </div> );
+  );
 }
 
 export default LeaveList;
