@@ -1,10 +1,11 @@
-@import '~office-ui-fabric-react/dist/sass/References.scss';
-
+@import "~office-ui-fabric-react/dist/sass/References.scss";
+@import url(https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css);
 .salaries {
   overflow: hidden;
   padding: 1em;
   color: "[theme:bodyText, default: #323130]";
   color: var(--bodyText);
+
   &.teams {
     font-family: $ms-font-family-fallbacks;
   }
@@ -23,12 +24,363 @@
   a {
     text-decoration: none;
     color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+    color: var(
+      --link
+    ); // note: CSS Custom Properties support is limited to modern browsers only
 
     &:hover {
       text-decoration: underline;
       color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+      color: var(
+        --linkHovered
+      ); // note: CSS Custom Properties support is limited to modern browsers only
+    }
+  }
+}
+
+.header-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 35px;
+
+  .chart {
+    width: 100%;
+    border-radius: 50%;
+    max-width: 121px;
+    margin-right: 41px;
+  }
+
+  .media-body {
+    flex: 1;
+
+    h2 {
+      font-size: 23px;
+      line-height: 120%;
+      color: #061623;
+      display: flex;
+      align-items: center;
+      margin-top: 0;
+      margin-bottom: 11px;
+
+      i {
+        color: #1fcfb3;
+        line-height: 1;
+        margin-left: 10px;
+      }
+    }
+
+    ul {
+      display: flex;
+      margin: 0 -15px;
+      flex-wrap: wrap;
+      list-style: none;
+      padding: 0;
+
+      li {
+        padding: 5px 15px;
+      }
+    }
+  }
+}
+
+.chart-label {
+  padding: 0 19px;
+  border-left: 3px solid transparent;
+
+  span {
+    display: block;
+    color: #717d8a;
+    margin-bottom: 8px;
+  }
+
+  .amount {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 120%;
+    color: #061623;
+  }
+
+  &.yellow {
+    border-color: #f2c94c;
+  }
+
+  &.green {
+    border-color: #1fcfb3;
+  }
+}
+
+.printCard {
+  background: #fff;
+  border: 1px solid #f1f1f1;
+  box-shadow: 0px 0px 16px rgba(8, 33, 54, 0.07);
+
+  .bodySlip {
+    padding: 33px 20px;
+    .company-info {
+      padding: 0 0 27px;
+      border-bottom: 1px solid #eaecee;
+      h2 {
+        margin: 0;
+      }
+      h3 {
+        margin: 0 0 8px;
+      }
+
+      .address {
+        margin: 0;
+        color: #717d8a;
+      }
+    }
+  }
+
+  .content-slip {
+    padding: 27px 0 0;
+
+    h2 {
+      margin: 0;
+    }
+
+    h4 {
+      margin: 0 0 22px;
+    }
+
+    h5 {
+      margin: 0 0 22px;
+    }
+
+    p {
+      margin-top: 0;
+    }
+  }
+
+  .info-employee {
+    h2 {
+      margin: 0;
+    }
+    p {
+      margin: 0 0 10px;
+      font-size: 12px;
+      line-height: 120%;
+      color: #717d8a;
+
+      strong {
+        color: #717d8a;
+      }
+    }
+
+    .row {
+      margin-bottom: 10px;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .net-pay {
+    padding: 25px 18px;
+    border: 1px solid #1fcfb3;
+    text-align: center;
+
+    span {
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 120%;
+      text-align: center;
+      color: #717d8a;
+      display: block;
+    }
+
+    .amount {
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 120%;
+      text-align: center;
+      color: #1fcfb3;
+      margin: 5px 0;
+    }
+  }
+
+  hr {
+    background-color: #eaecee;
+    margin: 27px 0;
+  }
+
+  .total-payment {
+    padding: 9px 46px;
+    background: #e8f0f6;
+
+    .total {
+      padding: 7px 10px;
+      border-left: 3px solid #1fcfb3;
+
+      span {
+        font-size: 12px;
+        color: #717d8a;
+
+        &.amount {
+          font-weight: 600;
+        }
+
+        small {
+          font-size: 10px;
+          color: #717d8a;
+        }
+      }
+    }
+  }
+
+  .footer-page {
+    padding: 30px 46px;
+
+    p {
+      margin: 0;
+      color: #061623;
+    }
+  }
+}
+
+.cta-back {
+  background: transparent;
+  border: none;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+  cursor: pointer;
+  span {
+    margin-left: 10px;
+    font-size: 18px;
+  }
+}
+
+.net-pay {
+  padding: 25px 15px;
+  border: 1px solid #1fcfb3;
+  text-align: center;
+
+  span {
+    font-weight: 400;
+    font-size: 8px;
+    line-height: 120%;
+    text-align: center;
+    color: #061623;
+    display: block;
+  }
+
+  .amount {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 120%;
+    text-align: center;
+    color: #1fcfb3;
+    margin: 5px 0;
+  }
+}
+
+.table {
+  width: 100%;
+  thead {
+    tr {
+      th {
+        border: none;
+        font-size: 12px;
+        line-height: 120%;
+        color: #061623;
+        padding: 0.75rem 1.438rem;
+      }
+    }
+  }
+
+  tbody {
+    border: none !important;
+
+    tr {
+      td {
+        border: none;
+        border-bottom: 1.27px solid #f5f6f8;
+        background: #fff;
+        font-size: 12px;
+        line-height: 120%;
+        color: #061623;
+        padding: 1.25rem 1.438rem;
+        vertical-align: middle;
+
+        strong {
+          color: #061623;
+        }
+
+        .cta {
+          font-size: 12px;
+          line-height: 15px;
+          letter-spacing: 0.01em;
+          color: #2db9e1;
+        }
+      }
+    }
+  }
+
+  &.table-secondary {
+    thead {
+      tr {
+        th {
+          background: #f1f1f1;
+          text-align: right;
+          padding: 0.75rem;
+          font-size: 10px;
+
+          &:first-child {
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          text-align: right;
+          color: #061623;
+          border: none;
+          padding: 1rem 0.75rem;
+
+          font-size: 10px strong {
+            color: #061623;
+            font-weight: 400;
+          }
+
+          &:first-child {
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    tfoot {
+      border: none;
+
+      tr {
+        td {
+          text-align: right;
+          border: none;
+          border-top: 1px solid #eaecee;
+          background: transparent;
+
+          font-size: 10px;
+          padding: 1rem 0.75rem;
+
+          &:first-child {
+            text-align: left;
+          }
+
+          .total {
+            font-weight: 600;
+            font-size: 10px;
+            color: #061623;
+          }
+        }
+      }
     }
   }
 }

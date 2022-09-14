@@ -123,12 +123,13 @@ function Salaries(props) {
     _getListOfLeaves();
   }, []);
   const _getListOfLeaves = async () => {
+   
     let salariesData = await _sp.web.lists
       .getByTitle("SalariesNew")
       .renderListDataAsStream({
         FolderServerRelativeUrl: `/sites/SPFxDevs/Lists/SalariesNew/${user.email}`,
       });
-
+      console.log(salariesData)
     setData(salariesData?.Row);
   };
   return (
